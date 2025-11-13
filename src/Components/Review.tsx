@@ -1,7 +1,7 @@
 
 import BottomNav from "./BottomNav.tsx";
 
-// Define the shape of your project data
+
 interface ProjectData {
     name: string;
     description: string;
@@ -18,6 +18,7 @@ interface ReviewProjectProps {
     onCreate?: () => void;
 }
 
+//@ts-ignore
 export default function ReviewProject({project, onBack, onCreate, }: ReviewProjectProps) {
     const {
         name,

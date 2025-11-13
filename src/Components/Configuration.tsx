@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import DataSourceCard from './DataSourceCard';
 import BottomNav from "./BottomNav.tsx";
 
@@ -88,7 +88,7 @@ export default function Configuration() {
                     />
                 ))}
             </div>
-            <BottomNav/>
+            <BottomNav next={''}/>
 
         </div>
     );

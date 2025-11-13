@@ -1,7 +1,11 @@
 import {FaArrowLeft, FaArrowRight} from "react-icons/fa";
 
 
- const BottomNav=({next})=>(
+interface next {
+    next:string;
+}
+
+ const BottomNav=({next}:next)=>(
 
 <div className="flex gap-5 items-center pt-6 border-t border-gray-200">
     <button className="flex items-center gap-2 text-gray-700 bg-gray-100  px-6 py-2 rounded-md hover:bg-gray-300 transition-colors">
