@@ -1,13 +1,16 @@
 import React from "react";
+import {Link} from 'react-router-dom'
+
 
 interface StepItemProps {
     title: string;
     index: number;
     activeStep: number;
     icon: React.ReactNode;
+    to:string;
 }
 
-export default function StepItem({ title, index, activeStep, icon }: StepItemProps) {
+export default function StepItem({ title, index, activeStep, icon,to }: StepItemProps) {
     const isActive = index === activeStep;
     return (
         <div className="flex flex-col   ">
@@ -17,7 +20,10 @@ export default function StepItem({ title, index, activeStep, icon }: StepItemPro
                         isActive ? "border-blue-600 bg-blue-50 text-blue-600" : "border-gray-300 text-gray-400"
                     }`}
                 >
-                    {icon}
+                    <Link to={to}>
+                        {icon}
+
+                    </Link>
 
                 </div>
                 {title !== 'Review' && (

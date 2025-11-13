@@ -11,11 +11,11 @@ interface StepperProps {
 
 export default function Stepper({ activeStep }: StepperProps) {
     const steps = [
-        { title: "Setup Method", icon: <LuSparkles size={28} /> },
-        { title: "Project Basics", icon: <IoDocumentTextOutline size={28}/> },
-        { title: "Data Sources", icon: <FaDatabase size={28}/> },
-        { title: "Configuration", icon: <MdOutlineSettings size={28}/> },
-        { title: "Review", icon: <FaCheckCircle size={28}/> },
+        { title: "Setup Method", icon: <LuSparkles size={28} /> ,to:"/" },
+        { title: "Project Basics", icon: <IoDocumentTextOutline size={28}/> ,to:"/Basics" },
+        { title: "Data Sources", icon: <FaDatabase size={28}/> , to:"/DataSources" },
+        { title: "Configuration", icon: <MdOutlineSettings size={28}/> , to:"/Configuration"},
+        { title: "Review", icon: <FaCheckCircle size={28}/> ,to:"/Review" },
     ];
 
     return (
@@ -27,6 +27,7 @@ export default function Stepper({ activeStep }: StepperProps) {
                     index={i + 1}
                     activeStep={activeStep}
                     icon={step.icon}
+                    to={step.to}
                 />
             ))}
         </div>
