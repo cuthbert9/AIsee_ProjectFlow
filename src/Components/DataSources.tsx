@@ -83,7 +83,7 @@ export default function DataSources() {
           />
         ))}
       </div>
-      <BottomNav next={""} />
+      <BottomNav next={""} to={"/Configuration"} back={"/Basics"} />
     </div>
   );
 }

@@ -133,7 +133,7 @@ export default function ReviewProject({
         </div>
       </div>
 
-      <BottomNav next={"Create Project"} />
+      <BottomNav next={"Create Project"} back={"/Configuration"} />
     </div>
   );
 }

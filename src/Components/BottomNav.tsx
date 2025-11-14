@@ -1,22 +1,47 @@
-import {FaArrowLeft, FaArrowRight} from "react-icons/fa";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { useSContextStore } from "../Context";
+import { useNavigate } from "react-router-dom";
 
-
-interface next {
-    next:string;
+interface BottomNavProps {
+  next?: string;
+  to?: string;
+  back?: string;
 }
 
- const BottomNav=({next}:next)=>(
+const BottomNav = ({ next, to, back }: BottomNavProps) => {
+  const navigate = useNavigate();
 
-<div className="flex gap-5 items-center pt-6 border-t border-gray-200">
-    <button className="flex items-center gap-2 text-gray-700 bg-gray-100  px-6 py-2 rounded-md hover:bg-gray-300 transition-colors">
+  const ActiveIndex = useSContextStore((state) => state.activeIndex);
+  const SetActiveIndex = useSContextStore((state) => state.setActiveIndex);
+
+  const HandleNext = () => {
+    SetActiveIndex(ActiveIndex + 1);
+    navigate(to);
+  };
+
+  const HandleBack = () => {
+    SetActiveIndex(ActiveIndex - 1);
+    navigate(back);
+  };
+
+  return (
+    <div className="flex gap-5 items-center pt-6 border-t border-gray-200">
+      <button
+        onClick={HandleBack}
+        className="flex items-center gap-2 text-gray-700 bg-gray-100  px-6 py-2 rounded-md hover:bg-gray-300 transition-colors"
+      >
         <FaArrowLeft className="w-4 h-4" />
         Back
-    </button>
-    <button className="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
-        {  next ? next :"Next" }
+      </button>
+      <button
+        onClick={HandleNext}
+        className="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+      >
+        {next ? next : "Next"}
         <FaArrowRight className="w-4 h-4" />
-    </button>
-</div>
-);
+      </button>
+    </div>
+  );
+};
 
- export default BottomNav;
+export default BottomNav;
