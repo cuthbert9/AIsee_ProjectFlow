@@ -22,10 +22,8 @@ export default function StepItem({ title, index, icon, to }: StepItemProps) {
     <div className="flex flex-col   ">
       <div className={"flex items-center gap-2"}>
         <div
-          className={`flex items-center justify-center w-12 h-12 rounded-full border-2 ${
-            isActive
-              ? "border-blue-600 bg-blue-50 text-blue-600"
-              : "border-gray-300 text-gray-400"
+          className={`flex items-center justify-center w-12 h-12 rounded-full  ${
+            isActive ? " bg-blue-300 text-white" : "bg-gray-200 text-gray-400"
           }`}
         >
           <Link onClick={() => SetActiveIndex(index)} to={to}>
@@ -34,7 +32,7 @@ export default function StepItem({ title, index, icon, to }: StepItemProps) {
         </div>
         {title !== "Review" && (
           <div
-            className={`h-0.5 w-20   ${
+            className={`h-[1px] w-30  mx-2 ${
               isActive ? "bg-blue-500" : "bg-gray-700"
             } `}
           />

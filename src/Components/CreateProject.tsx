@@ -28,7 +28,7 @@ export default function CreateProject() {
   return (
     <main className="flex-1 bg-white min-h-screen ml-100   ">
       <div
-        className={"px-10 py-8 w-full border-b border-gray-300 bg-white  fixed"}
+        className={"px-10 py-4 w-full border-b border-gray-300 bg-white  fixed"}
       >
         <button className="flex-row text-sm text-gray-500 hover:text-blue-600">
           <div className={"flex gap-2"}>

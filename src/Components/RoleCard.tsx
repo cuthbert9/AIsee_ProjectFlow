@@ -21,7 +21,7 @@ export default function RoleCard({
     >
       <div>
         <h3 className="text-base font-medium text-gray-900">{title}</h3>
-        <p className="text-sm text-gray-500 mt-1">{description}</p>
+        <p className="text-xs text-gray-500 mt-1">{description}</p>
       </div>
       <FaArrowRight className="text-gray-400 text-sm" />
     </div>

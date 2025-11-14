@@ -74,7 +74,7 @@ export default function ReviewProject({ project }: ReviewProjectProps) {
             keywords.map((keyword) => (
               <span
                 key={keyword}
-                className="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium"
+                className="inline-flex items-center px-3 py-1 bg-gray-200  text-sm font-medium"
               >
                 {keyword}
               </span>
@@ -96,7 +96,7 @@ export default function ReviewProject({ project }: ReviewProjectProps) {
             dataSources.map((source) => (
               <span
                 key={source}
-                className="flex items-center px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm font-medium"
+                className="flex items-center px-3 py-1 bg-gray-100 text-gray-700  text-sm font-medium"
               >
                 {source}
               </span>
@@ -118,8 +118,9 @@ export default function ReviewProject({ project }: ReviewProjectProps) {
             widgets.map((widget) => (
               <span
                 key={widget}
-                className="inline-flex items-center px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm font-medium"
+                className="inline-flex items-center px-3 py-1 bg-gray-100 text-gray-700  text-sm font-medium"
               >
+                {" "}
                 {widget}
               </span>
             ))

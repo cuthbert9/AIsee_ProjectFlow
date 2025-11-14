@@ -35,7 +35,7 @@ const UseCaseItem: React.FC<UseCaseItemProps> = ({
 
       <div>
         <h3 className="text-gray-800 font-semibold text-lg">{title}</h3>
-        <p className="text-gray-500 text-sm">{description}</p>
+        <p className="text-gray-500 text-xs">{description}</p>
       </div>
     </button>
   );

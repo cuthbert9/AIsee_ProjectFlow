@@ -29,7 +29,7 @@ const BottomNav = ({ next, to, back }: BottomNavProps) => {
   };
 
   return (
-    <div className="flex gap-5 items-center pt-6 border-t border-gray-200">
+    <div className="flex gap-5 items-center pt-6  border-gray-200">
       <button
         onClick={HandleBack}
         className="flex items-center gap-2 text-gray-700 bg-gray-100  px-6 py-2 rounded-md hover:bg-gray-300 transition-colors"

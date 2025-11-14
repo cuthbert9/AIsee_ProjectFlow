@@ -1,4 +1,5 @@
-import { FaDatabase, FaCheckCircle } from "react-icons/fa";
+import { FaDatabase } from "react-icons/fa";
+import { FaCheck } from "react-icons/fa6";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import { MdOutlineSettings } from "react-icons/md";
 import { LuSparkles } from "react-icons/lu";
@@ -26,7 +27,7 @@ export default function Stepper({ activeStep }: StepperProps) {
       icon: <MdOutlineSettings size={28} />,
       to: "/Configuration",
     },
-    { title: "Review", icon: <FaCheckCircle size={28} />, to: "/Review" },
+    { title: "Review", icon: <FaCheck size={25} />, to: "/Review" },
   ];
 
   return (
