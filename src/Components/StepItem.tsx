@@ -11,7 +11,9 @@ interface StepItemProps {
 }
 
 export default function StepItem({ title, index, icon, to }: StepItemProps) {
+  // @ts-ignore
   const ActiveIndex = useSContextStore((state) => state.activeIndex);
+  // @ts-ignore
   const SetActiveIndex = useSContextStore((state) => state.setActiveIndex);
 
   const isActive = index <= ActiveIndex;

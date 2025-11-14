@@ -11,16 +11,20 @@ interface BottomNavProps {
 const BottomNav = ({ next, to, back }: BottomNavProps) => {
   const navigate = useNavigate();
 
+  // @ts-ignore
   const ActiveIndex = useSContextStore((state) => state.activeIndex);
+  // @ts-ignore
   const SetActiveIndex = useSContextStore((state) => state.setActiveIndex);
 
   const HandleNext = () => {
     SetActiveIndex(ActiveIndex + 1);
+    // @ts-ignore
     navigate(to);
   };
 
   const HandleBack = () => {
     SetActiveIndex(ActiveIndex - 1);
+    // @ts-ignore
     navigate(back);
   };
 

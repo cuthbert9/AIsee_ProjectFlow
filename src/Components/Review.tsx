@@ -16,11 +16,7 @@ interface ReviewProjectProps {
   onCreate?: () => void;
 }
 
-export default function ReviewProject({
-  project,
-  onBack,
-  onCreate,
-}: ReviewProjectProps) {
+export default function ReviewProject({ project }: ReviewProjectProps) {
   const {
     name,
     description,
