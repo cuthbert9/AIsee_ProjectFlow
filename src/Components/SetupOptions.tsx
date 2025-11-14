@@ -1,6 +1,8 @@
 import { LuSparkles } from "react-icons/lu";
 import { IoMdSettings } from "react-icons/io";
 import { IoDocumentTextOutline } from "react-icons/io5";
+import { useSContextStore } from "../Context";
+import { Link } from "react-router-dom";
 export default function SetupOptions() {
   const options = [
     {
@@ -21,6 +23,15 @@ export default function SetupOptions() {
     },
   ];
 
+  // @ts-ignore
+  const ActiveIndex = useSContextStore((state) => state.activeIndex);
+  // @ts-ignore
+  const SetActiveIndex = useSContextStore((state) => state.setActiveIndex);
+
+  const HandleSetup = () => {
+    SetActiveIndex(ActiveIndex + 1);
+  };
+
   return (
     <>
       <h2 className="text-lg font-semibold text-gray-800 mt-6">
@@ -28,32 +39,34 @@ export default function SetupOptions() {
       </h2>
       <div className="grid grid-cols-3 gap-6 mt-8 max-w-5xl mx-auto">
         {options.map((opt, i) => (
-          <div
-            key={i}
-            className="h-[150px] items-center justify-center  rounded-lg p-6 shadow-lg bg-white hover:shadow-xl cursor-pointer transition"
-          >
-            <div className="flex items-center justify-between mb-2">
-              <div>
-                <div className={"flex gap-2 items-center"}>
-                  <div>{opt.icon}</div>
+          <Link onClick={HandleSetup} to={`/Basics`}>
+            <div
+              key={i}
+              className="h-[150px] items-center justify-center  rounded-lg p-6 shadow-lg bg-white hover:shadow-xl cursor-pointer transition"
+            >
+              <div className="flex items-center justify-between mb-2">
+                <div>
+                  <div className={"flex gap-2 items-center"}>
+                    <div>{opt.icon}</div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-800">
+                        {opt.title}
+                      </h3>
+                    </div>
+                  </div>
+
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-800">
-                      {opt.title}
-                    </h3>
+                    {opt.tag && (
+                      <span className="text-xs bg-gray-100 text-black px-2 py-1 rounded">
+                        {opt.tag}
+                      </span>
+                    )}
                   </div>
                 </div>
-
-                <div>
-                  {opt.tag && (
-                    <span className="text-xs bg-gray-100 text-black px-2 py-1 rounded">
-                      {opt.tag}
-                    </span>
-                  )}
-                </div>
               </div>
+              <p className="text-sm text-gray-600">{opt.subtitle}</p>
             </div>
-            <p className="text-sm text-gray-600">{opt.subtitle}</p>
-          </div>
+          </Link>
         ))}
       </div>
     </>
