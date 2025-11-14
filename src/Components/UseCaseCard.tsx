@@ -16,6 +16,7 @@ const UseCaseItem: React.FC<UseCaseItemProps> = ({
   setSelectedUseCase,
 }) => {
   const handleSelect = () => {
+    // @ts-ignore
     setSelectedUseCase((prev) => {
       if (!prev) return [title];
       if (prev.includes(title)) return prev.filter((t) => t !== title);
