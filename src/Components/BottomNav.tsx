@@ -1,6 +1,7 @@
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { useSContextStore } from "../Context";
 import { useNavigate } from "react-router-dom";
+import { FaCheck } from "react-icons/fa6";
 
 interface BottomNavProps {
   next?: string;
@@ -37,13 +38,34 @@ const BottomNav = ({ next, to, back }: BottomNavProps) => {
         <FaArrowLeft className="w-4 h-4" />
         Back
       </button>
-      <button
-        onClick={HandleNext}
-        className="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
-      >
-        {next ? next : "Next"}
-        <FaArrowRight className="w-4 h-4" />
-      </button>
+      {/*<button*/}
+      {/*  onClick={HandleNext}*/}
+      {/*  className="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"*/}
+      {/*>*/}
+      {/*  {next ? next : "Next"}*/}
+
+      {/*  <FaArrowRight className="w-4 h-4" />*/}
+      {/*</button>*/}
+
+      {next ? (
+        <button
+          onClick={HandleNext}
+          className="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+        >
+          <h1>{next}</h1>
+
+          <FaCheck className="w-4 h-4" />
+        </button>
+      ) : (
+        <button
+          onClick={HandleNext}
+          className="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+        >
+          <h1>Next</h1>
+
+          <FaArrowRight className="w-4 h-4" />
+        </button>
+      )}
     </div>
   );
 };
