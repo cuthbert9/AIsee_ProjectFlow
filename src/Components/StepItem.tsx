@@ -10,13 +10,7 @@ interface StepItemProps {
   to: string;
 }
 
-export default function StepItem({
-  title,
-  index,
-
-  icon,
-  to,
-}: StepItemProps) {
+export default function StepItem({ title, index, icon, to }: StepItemProps) {
   const ActiveIndex = useSContextStore((state) => state.activeIndex);
   const SetActiveIndex = useSContextStore((state) => state.setActiveIndex);
 
@@ -32,9 +26,9 @@ export default function StepItem({
               : "border-gray-300 text-gray-400"
           }`}
         >
-          <button onClick={(index) => SetActiveIndex(index)}>
-            <Link to={to}>{icon}</Link>
-          </button>
+          <Link onClick={() => SetActiveIndex(index)} to={to}>
+            {icon}
+          </Link>
         </div>
         {title !== "Review" && (
           <div
