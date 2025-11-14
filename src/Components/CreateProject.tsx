@@ -6,6 +6,7 @@ import SelectUseCase from "./ProjectBasics.tsx";
 import DataSources from "./DataSources.tsx";
 import Configuration from "./Configuration.tsx";
 import ReviewProject from "./Review.tsx";
+import { FiMessageSquare } from "react-icons/fi";
 
 export default function CreateProject() {
   const project = {
@@ -38,7 +39,7 @@ export default function CreateProject() {
         </button>
       </div>
 
-      <div className="px-10 py-4 w-full mx-66 mt-23 fixed bg-white ">
+      <div className="px-10 py-4 w-full mx-66 mt-15 fixed bg-white ">
         <h1 className="text-3xl font-bold text-gray-800 mt-4">
           Create New Project
         </h1>
@@ -46,6 +47,14 @@ export default function CreateProject() {
           Set up a new monitoring project in just a few steps
         </p>
         <Stepper activeStep={1} />
+      </div>
+
+      <div
+        className={
+          "fixed top-[850px] left-[1800px] border border-gray-200 shadow-2xl p-2 rounded-full"
+        }
+      >
+        <FiMessageSquare size={30} color={"black"} />
       </div>
 
       <div className={"flex-1 px-10 py-8 mx-66  mt-74 z-20"}>
