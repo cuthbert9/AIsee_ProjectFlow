@@ -15,6 +15,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { useEffect, useRef } from "react";
 import EditPage from "./EditProject.tsx";
 import axios from "axios";
+
 export default function CreateProject() {
   const methods = useForm({
     mode: "onChange",
@@ -29,6 +30,8 @@ export default function CreateProject() {
     trigger,
     formState: { errors },
   } = methods;
+
+
 
   const activeIndex = useSContextStore((state) => state.activeIndex);
   const addProject = useSContextStore((state) => state.addProject);
@@ -266,7 +269,8 @@ export default function CreateProject() {
 
     // Map form data to backend Project structure
     const projectPayload: any = {
-      id: crypto.randomUUID(),
+   
+        
       name: data.projectName,
       description: data.description,
       keywords: Array.isArray(data.keywords)
@@ -286,8 +290,7 @@ export default function CreateProject() {
     try {
       await createProject(projectPayload);
     } catch (e) {
-
-
+      console.error("Error creating project:", e);
     }
   };
 
@@ -358,7 +361,8 @@ export default function CreateProject() {
         <div
           className={`flex-1 px-4 md:px-10 py-8 mt-40 md:mt-40 lg:mt-80 z-20 ${activeIndex !== 6 ? "xl:mx-64" : ""}`}
         >
-          <Routes>
+          <Routes>         
+
             <Route path="/" element={<SetupOptions />} />
             <Route path={"/basics"} element={<SelectUseCase />} />
             <Route path={"/dataSources"} element={<DataSources />} />
@@ -369,6 +373,10 @@ export default function CreateProject() {
             />
             <Route path="/ProjectCard" element={<ProjectCard />} />
             <Route path="/editPage/:projectName" element={<EditPage />} />
+
+ 
+
+            
           </Routes>
 
           {activeIndex !== 6 && activeIndex !== 1 && (

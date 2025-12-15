@@ -1,8 +1,13 @@
 
 import { eq } from "drizzle-orm";
 import { db } from "./db";
-import { projects } from "./schema";
+import { projects ,users} from "./schema";
 import { Request, Response } from "express";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+
+
+//create project must receive the userId along with other project details
 
 export const createProject = async (req: Request, res: Response) => {
   try {
@@ -64,5 +69,62 @@ export const deleteProject = async (req: Request, res: Response) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to delete project" });
+  }
+};
+
+
+export const registerUser= async (req: Request, res: Response) => {
+  try {
+    const { email, password } = req.body;    
+    const hash = await bcrypt.hash(password, 10);    
+    await db.insert(users).values({
+      email,
+      passwordHash: hash,
+    });
+    
+    res.status(201).json({ message: "User registered successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to register user" });
+  }
+}
+
+
+export const loginUser = async (req: Request, res: Response) => {
+  try {
+    const { email, password } = req.body; 
+    const user = await db
+      .select()
+      .from(users)
+      .where(eq(users.email, email));
+
+    
+    if (user.length === 0) {
+      return res.status(401).json({ error: "Invalid email or password" });
+    }
+
+  
+    const isPasswordValid = await bcrypt.compare(
+      password,
+      user[0].passwordHash
+    );
+
+    if (!isPasswordValid) {
+      return res.status(401).json({ error: "Invalid email or password" });
+    }
+
+    const token = jwt.sign(
+      { userId: user[0].id },      
+      process.env.JWT_SECRET!,
+      { expiresIn: "7d" }
+    );
+
+    return res.json({
+      message: "Login successful",
+      token,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Failed to login user" });
   }
 };
