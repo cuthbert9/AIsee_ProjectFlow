@@ -37,6 +37,7 @@ const EditPage = () => {
   });
 
   const { reset, getValues } = methods;
+  const token = localStorage.getItem("token") ;
 
   const updateProjectbyID = async (id: string, updateData: any) => {
     try {
@@ -46,6 +47,8 @@ const EditPage = () => {
         {
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+
           },
         }
       );

@@ -14,7 +14,11 @@ export const createProject = async (req: Request, res: Response) => {
   try {
     const newProject = await db
       .insert(projects)
-      .values(req.body)
+      .values({ 
+        //@ts-ignore       
+        userId: req.user.userId,
+        ...req.body,
+      })
       .returning();
 
     res.status(201).json(newProject[0]);
@@ -26,7 +30,8 @@ export const createProject = async (req: Request, res: Response) => {
 
 export const getProjects = async (req: Request, res: Response) => {
   try {
-    const data = await db.select().from(projects);
+    //@ts-ignore
+    const data = await db.select().from(projects).where(eq(projects.userId, req.user.userId));
     res.json(data);
   } catch (error) {
     console.error(error);
@@ -117,7 +122,7 @@ export const loginUser = async (req: Request, res: Response) => {
     const token = jwt.sign(
       { userId: user[0].id },      
       process.env.JWT_SECRET || "mysecretkey123",
-      { expiresIn: "7d" }
+      { expiresIn: "90d" }
     );
 
     return res.json({

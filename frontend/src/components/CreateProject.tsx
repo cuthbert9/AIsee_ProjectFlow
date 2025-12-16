@@ -239,6 +239,7 @@ export default function CreateProject() {
   };
 
   const createProject = async (projectData: any) => {
+    const token = localStorage.getItem("token");
     try {
       const response = await axios.post(
         `${BACKEND_URL}/projects`,
@@ -246,6 +247,7 @@ export default function CreateProject() {
         {
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
         }
       );

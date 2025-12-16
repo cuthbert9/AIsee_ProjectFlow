@@ -9,17 +9,22 @@ const CardP = ({ data }: any) => {
   const deleteProject = useSContextStore((state) => state.deleteProject);
 
   const handleDelete = async () => {
+            if (!data?.id) return;
     if (
       window.confirm(
         `Are you sure you want to delete "${data?.name}"? This action cannot be undone.`,
       )
-    ) {
-
-      deleteProject(data?.id);
+    ) {     
 
       try {
-        await axios.delete(`http://localhost:3000/projects/${data?.id}`);
+        await axios.delete(`http://localhost:3000/projects/${data?.id}`,{
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+              
 
+        deleteProject(data?.id);
       } catch (error) {
 
 

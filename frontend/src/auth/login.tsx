@@ -36,8 +36,7 @@ export default function LoginPage() {
       });
 
       const result = await res.json();
-      localStorage.setItem("token", data.token);
-
+      localStorage.setItem("token", result.token);
       
 
       if (!res.ok) {
