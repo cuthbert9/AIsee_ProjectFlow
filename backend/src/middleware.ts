@@ -8,7 +8,7 @@ interface RequestWithUser extends Request {
 const authMiddleware = (req: RequestWithUser, res: Response, next: NextFunction) => {
   const header = req.headers.authorization;
 
-  if (!header) return res.status(401).json({ message: "No token" });
+  if (!header) return res.status(401).json({ message: "No token Received" });
 
   const token = header.split(" ")[1];
 
