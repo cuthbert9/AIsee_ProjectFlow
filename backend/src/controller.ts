@@ -1,10 +1,11 @@
-
+import 'dotenv/config';
 import { eq } from "drizzle-orm";
 import { db } from "./db";
 import { projects ,users} from "./schema";
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+
 
 
 //create project must receive the userId along with other project details
@@ -115,7 +116,7 @@ export const loginUser = async (req: Request, res: Response) => {
 
     const token = jwt.sign(
       { userId: user[0].id },      
-      process.env.JWT_SECRET!,
+      process.env.JWT_SECRET || "mysecretkey123",
       { expiresIn: "7d" }
     );
 
