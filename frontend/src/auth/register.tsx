@@ -19,11 +19,14 @@ export default function RegisterPage() {
         }),
       });
 
-      const result = await res.json();      
+      const result = await res.json(); 
 
-      if (!res.ok) {
-        throw new Error(result.error || "Registration failed");
-      }    
+         if(res.ok){  
+      alert("Registration successful! Please  log in.");
+      }else{
+        alert(`Registration failed: ${result.error || "Unknown error"} `);
+      }
+      
     } catch (error: any) {
         console.error("Registration error:", error.message);
     }

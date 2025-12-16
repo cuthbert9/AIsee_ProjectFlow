@@ -1,19 +1,17 @@
 import { Link } from "react-router-dom";
 import RegisterPage from "./register";
-import { use, useState } from "react";
+import {  useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
 
+    const navigate = useNavigate();
+
+  const [showRegister, setShowRegister] = useState(false); 
 
 
-  const [showRegister, setShowRegister] = useState(false);
-
-  
-
-
-    const { register, handleSubmit } = useForm();
-   
+    const { register, handleSubmit } = useForm();  
 
 
   if (showRegister) {
@@ -37,11 +35,13 @@ export default function LoginPage() {
 
       const result = await res.json();
       localStorage.setItem("token", result.token);
-      
 
-      if (!res.ok) {
-        throw new Error(result.error || "Login  failed");
-      }    
+       if(res.ok){
+        navigate("/");
+       }else{
+        alert(`Login failed: ${result.error || "Unknown error"}`);
+       }
+    
     } catch (error: any) {
         console.error("Login  error:", error.message);
     }
