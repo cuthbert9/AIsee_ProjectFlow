@@ -1,6 +1,5 @@
 import { create } from "zustand";
-
-import axios from "axios";
+import { getProjects } from "../lib/api";
 
 // Define the Project interface based on backend response
 export interface Project {
@@ -31,27 +30,21 @@ type SContextStore = {
 };
 
 export const fetchProjects = async () => {
+ 
   const token = localStorage.getItem("token");
 
   if (!token) {
     console.error("No token found. User is not logged in.");
-  
     return;
   }
 
   try {
-    const response = await axios.get("http://localhost:3000/projects", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    useSContextStore.setState({ projects: response.data });
+    const data = await getProjects();
+    useSContextStore.setState({ projects: data });
   } catch (error: any) {
     if (error.response?.status === 401) {
       console.error("Unauthorized: token invalid or expired");
-        console.log(token);
-     
-      // redirect to login if needed
+   
     } else {
       console.error("Error fetching projects:", error);
     }

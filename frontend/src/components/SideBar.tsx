@@ -6,24 +6,19 @@ import { FiHome } from "react-icons/fi";
 import { GoDotFill } from "react-icons/go";
 import { IoSettingsOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
-import {useEffect, useRef,useState}from "react";
-import axios from "axios";
+import { useEffect, useRef, useState } from "react";
+import { getUser } from "../lib/api";
 
 export default function Sidebar() {
   const [openAccountMenu, setOpenAccountMenu] = useState(false);
-  const [user,setUser]=useState(null);
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
   const accountMenuRef = useRef<HTMLDivElement | null>(null);
 
   const fetchUserData = async () => {
     try {
-      const token = localStorage.getItem("token");
-      const response = await axios.get("http://localhost:3000/user", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setUser(response.data.split("@")[0]); 
+      const data = await getUser();
+      setUser(data.split("@")[0]);
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
@@ -31,26 +26,25 @@ export default function Sidebar() {
 
   useEffect(() => {
     fetchUserData();
-     
   }, []);
 
 
   useEffect(() => {
-  const handleClickOutside = (event: MouseEvent) => {
-    if (
-      accountMenuRef.current &&
-      !accountMenuRef.current.contains(event.target as Node)
-    ) {
-      setOpenAccountMenu(false);
-    }
-  };
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        accountMenuRef.current &&
+        !accountMenuRef.current.contains(event.target as Node)
+      ) {
+        setOpenAccountMenu(false);
+      }
+    };
 
-  document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
 
-  return () => {
-    document.removeEventListener("mousedown", handleClickOutside);
-  };
-}, []);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
 
   return (
@@ -82,10 +76,10 @@ export default function Sidebar() {
 
           <div
             ref={accountMenuRef}
-           className="w-9 h-9 bg-blue-700 text-white flex items-center justify-center rounded-full font-bold my-4  ">
+            className="w-9 h-9 bg-blue-700 text-white flex items-center justify-center rounded-full font-bold my-4  ">
 
             <button
-              onClick={()=>setOpenAccountMenu(!openAccountMenu)}            
+              onClick={() => setOpenAccountMenu(!openAccountMenu)}
             >CJ</button>
 
             {openAccountMenu && (
@@ -97,12 +91,12 @@ export default function Sidebar() {
                     window.location.reload();
                   }}
                   className="block w-full flex items-center gap-2 text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" >
-                    <RiLogoutCircleLine />
-                    <h1>  Logout</h1>                
+                  <RiLogoutCircleLine />
+                  <h1>  Logout</h1>
                 </button>
               </div>
-            ) 
-            }            
+            )
+            }
           </div>
         </div>
       </div>

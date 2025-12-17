@@ -14,7 +14,7 @@ import { useSContextStore } from "../Context/index.ts";
 import { FormProvider, useForm } from "react-hook-form";
 import { useEffect, useRef } from "react";
 import EditPage from "./EditProject.tsx";
-import axios from "axios";
+import { createProject as apiCreateProject } from "../lib/api";
 
 export default function CreateProject() {
   const methods = useForm({
@@ -46,7 +46,7 @@ export default function CreateProject() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const BACKEND_URL = "http://localhost:3000";
+
 
   // Use ref to track if we've cleared the form to prevent infinite loops
   const hasCleared = useRef(false);
@@ -213,8 +213,7 @@ export default function CreateProject() {
 
   const handleBack = () => {
     setActiveIndex(activeIndex - 1);
-    navigator(activeIndex - 1);
-    // Reset submit attempted when going back
+    navigator(activeIndex - 1);    
     setSubmitAttempted(false);
   };
   const values = getValues();
@@ -240,19 +239,9 @@ export default function CreateProject() {
   };
 
   const createProject = async (projectData: any) => {
-    const token = localStorage.getItem("token");
     try {
-      const response = await axios.post(
-        `${BACKEND_URL}/projects`,
-        projectData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      return response.data;
+      const data = await apiCreateProject(projectData);
+      return data;
     } catch (error: any) {
       if (error.response) {
         throw new Error(error.response.data?.error || "Failed to create project");
@@ -277,7 +266,7 @@ export default function CreateProject() {
       name: data.projectName,
       description: data.description,
       keywords: Array.isArray(data.keywords)
-        ? data.keywords.map((k: any) => k.value || k) // Handle {value: string} or string
+        ? data.keywords.map((k: any) => k.value || k)
         : [],
       priority: data.priority?.toLowerCase() || "low",
       usecases: data.useCase || [],

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { registerUser } from "../lib/api";
 import { useForm } from "react-hook-form";
 
 interface RegisterPageProps {
@@ -12,27 +13,23 @@ export default function RegisterPage({ onLogin }: RegisterPageProps) {
   const onSubmit = async (data: any) => {
 
     try {
-      const res = await fetch("http://localhost:3000/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: data.email,
-          password: data.password,
-        }),
+      await registerUser({
+        email: data.email,
+        password: data.password,
       });
 
-      const result = await res.json();
+      //   const result = await res.json();
 
-      if (res.ok) {
-        alert("Success signing");
-        onLogin();
-      } else {
-        alert(`Registration failed: ${result.error || "Unknown error"} `);
-      }
+      //   if (res.ok) {
+      alert("Success signing");
+      onLogin();
+      //   } else {
+      //     alert(`Registration failed: ${result.error || "Unknown error"} `);
+      //   }
 
     } catch (error: any) {
+      const errorMessage = error.response?.data?.error || "Unknown error";
+      alert(`Registration failed: ${errorMessage} `);
       console.error("Registration error:", error.message);
     }
   };

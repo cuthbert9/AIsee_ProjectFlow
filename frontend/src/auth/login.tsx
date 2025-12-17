@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { loginUser } from "../lib/api";
 import RegisterPage from "./register";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -26,33 +27,34 @@ export default function LoginPage({ onLoginSuccess }: LoginProps) {
   const onSubmit = async (data: any) => {
 
     try {
-      const res = await fetch("http://localhost:3000/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: data.email,
-          password: data.password,
-        }),
+      // Use the centralized loginUser function
+      const result = await loginUser({
+        email: data.email,
+        password: data.password,
       });
 
-      const result = await res.json();
+      // The api function returns response.data directly.
+      // But wait check my api.ts implementation: `return response.data`.
+      // The original code expected `token` in `result`.
+
       localStorage.setItem("token", result.token);
 
-      if (res.ok) {
-        alert("Success");
-        onLoginSuccess();
-        navigate("/setupOptions");
+      //   if (res.ok) { // axios throws on non-2xx so if we are here it is success
+      alert("Success");
+      onLoginSuccess();
+      navigate("/setupOptions");
 
-      } else {
-        alert(`Login failed: ${result.error || "Unknown error"}`);
-      }
+      //   } 
 
     } catch (error: any) {
+      // Axios error structure
+      const errorMessage = error.response?.data?.error || "Unknown error";
+      alert(`Login failed: ${errorMessage}`);
       console.error("Login  error:", error.message);
     }
   };
+
+
 
 
 

@@ -2,27 +2,23 @@ import { useNavigate } from "react-router-dom";
 import { useSContextStore } from "../Context";
 
 import React from "react";
-import axios from "axios";
+import { deleteProject as apiDeleteProject } from "../lib/api";
 
 const CardP = ({ data }: any) => {
   const navigate = useNavigate();
   const deleteProject = useSContextStore((state) => state.deleteProject);
 
   const handleDelete = async () => {
-            if (!data?.id) return;
+    if (!data?.id) return;
     if (
       window.confirm(
         `Are you sure you want to delete "${data?.name}"? This action cannot be undone.`,
       )
-    ) {     
+    ) {
 
       try {
-        await axios.delete(`http://localhost:3000/projects/${data?.id}`,{
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
-              
+        await apiDeleteProject(data?.id);
+
 
         deleteProject(data?.id);
       } catch (error) {
@@ -85,7 +81,7 @@ const CardP = ({ data }: any) => {
 
   return (
     <div className="border border-gray-200 bg-white rounded-xl shadow-md p-4 w-full hover:shadow-lg transition-shadow h-full flex flex-col">
-      {/* Header (Project Name & Priority) */}
+  
       <div className="flex justify-between items-start mb-3">
         <div>
           <h2 className="text-lg font-extrabold text-gray-900 leading-snug">
@@ -100,21 +96,19 @@ const CardP = ({ data }: any) => {
         </span>
       </div>
 
-      {/* Description - Added here */}
       {data?.description && (
         <p className="text-sm text-gray-600 leading-relaxed mb-4 pb-2 border-b border-gray-100">
           {data.description}
         </p>
       )}
 
-      {/* Main Grid (Use Case, Keywords, Widgets) */}
       <div className="grid grid-cols-2 gap-y-4 gap-x-6 my-4">
         <DataPoint label="Use Case" value={formattedUseCase} />
         <DataPoint label="Keywords" value={formattedKeywords} />
         <DataPoint label="Metrics" value={formattedWidgets} />
       </div>
 
-      {/* Data Sources (Takes up full width for detailed display) */}
+    
       {(formattedDataSources || formattedSocialMedia) && (
         <div className="mt-4 pt-3 border-t border-gray-100">
           <DataPoint

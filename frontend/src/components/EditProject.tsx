@@ -12,13 +12,13 @@ import Configuration from "./Configuration.tsx";
 import { FaArrowRight } from "react-icons/fa";
 import { useParams, useNavigate } from "react-router-dom";
 import { FormProvider, useForm } from "react-hook-form";
-import axios from "axios";
+import { updateProject as apiUpdateProject } from "../lib/api";
 
 const EditPage = () => {
   const { projectName } = useParams();
   const navigate = useNavigate();
 
-  const BACKEND_URL = "http://localhost:3000";
+
 
 
 
@@ -37,23 +37,12 @@ const EditPage = () => {
   });
 
   const { reset, getValues } = methods;
-  const token = localStorage.getItem("token") ;
+
 
   const updateProjectbyID = async (id: string, updateData: any) => {
     try {
-      const response = await axios.put(
-        `${BACKEND_URL}/projects/${id}`,
-        updateData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-
-          },
-        }
-      );
-
-      return response.data;
+      const data = await apiUpdateProject(id, updateData);
+      return data;
     } catch (error: any) {
       if (error.response) {
         throw new Error(error.response.data?.error || "Failed to update project");
@@ -87,7 +76,7 @@ const EditPage = () => {
         };
         reset(formValues);
       } else {
-       
+
         navigate("/ProjectCard");
       }
     }
