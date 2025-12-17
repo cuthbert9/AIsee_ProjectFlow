@@ -55,14 +55,23 @@ export default function RegisterPage({ onLogin }: RegisterPageProps) {
               Email
             </label>
             <input
-              {
-              ...register("email", { required: "Email is required" })
-              }
+                  {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                    message: "Please enter a valid email",
+                  },
+                })}
 
               placeholder="Enter your email"
               className="w-full px-3 py-2 border border-gray-300 rounded-md 
                          focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
+            {errors.email && (
+              <p className="text-sm text-red-600 mt-1">
+                {errors.email.message as string}
+              </p>
+            )}
           </div>
 
           {/* Password */}
@@ -91,7 +100,8 @@ export default function RegisterPage({ onLogin }: RegisterPageProps) {
               placeholder="••••••••"
               {
               ...register("confirmPassword", { required: "Please confirm your password",validate: value =>
-                value === password || "Passwords do not match"
+                value === password || "Passwords do not match",
+                
               })
              }
               className="w-full px-3 py-2 border border-gray-300 rounded-md 
