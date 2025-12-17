@@ -8,7 +8,9 @@ interface RegisterPageProps {
 
 export default function RegisterPage({ onLogin }: RegisterPageProps) {
   //@ts-ignore
-  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm();
+  const { register, handleSubmit,watch, formState: { errors, isSubmitting } } = useForm();
+
+  const password=watch("password");
 
   const onSubmit = async (data: any) => {
 
@@ -18,15 +20,10 @@ export default function RegisterPage({ onLogin }: RegisterPageProps) {
         password: data.password,
       });
 
-      //   const result = await res.json();
-
-      //   if (res.ok) {
+    
       alert("Success signing");
       onLogin();
-      //   } else {
-      //     alert(`Registration failed: ${result.error || "Unknown error"} `);
-      //   }
-
+    
     } catch (error: any) {
       const errorMessage = error.response?.data?.error || "Unknown error";
       alert(`Registration failed: ${errorMessage} `);
@@ -78,7 +75,7 @@ export default function RegisterPage({ onLogin }: RegisterPageProps) {
               ...register("password", { required: "Password is required" })
               }
               type="password"
-              placeholder="••••••••••••••"
+              placeholder="•••••••"
               className="w-full px-3 py-2 border border-gray-300 rounded-md 
                          focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
@@ -90,11 +87,21 @@ export default function RegisterPage({ onLogin }: RegisterPageProps) {
               Confirm Password
             </label>
             <input
-              type="password"
-              placeholder="••••••••••••••"
+               type="password"
+              placeholder="••••••••"
+              {
+              ...register("confirmPassword", { required: "Please confirm your password",validate: value =>
+                value === password || "Passwords do not match"
+              })
+             }
               className="w-full px-3 py-2 border border-gray-300 rounded-md 
                          focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
+                            {errors.confirmPassword && (
+                <p className="text-sm text-red-600 mt-1">    
+                    Passwords doesn't match
+                </p>
+              )}            
           </div>
 
           {/* Submit */}
