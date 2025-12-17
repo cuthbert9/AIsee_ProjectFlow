@@ -39,6 +39,22 @@ export const getProjects = async (req: Request, res: Response) => {
   }
 };
 
+
+export const getUser=async (req: Request, res: Response) => {
+  try {
+    //@ts-ignore
+    const user = await db.select().from(users).where(eq(users.id, req.user.userId));
+    if (user.length === 0) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    res.json(user[0].email);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to fetch user" });
+  }
+}
+
+
 export const updateProject = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
