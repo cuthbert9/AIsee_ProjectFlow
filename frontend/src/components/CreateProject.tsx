@@ -72,6 +72,7 @@ export default function CreateProject() {
   useEffect(() => {
     const pathToIndex: { [key: string]: number } = {
       "/": 1,
+      "/setupOptions": 1,
       "/basics": 2,
       "/dataSources": 3,
       "/configuration": 4,
@@ -149,7 +150,7 @@ export default function CreateProject() {
         break;
 
       default:
-        navigate("/");
+        navigate("/setupOptions");
     }
   };
 
@@ -271,8 +272,8 @@ export default function CreateProject() {
 
     // Map form data to backend Project structure
     const projectPayload: any = {
-   
-        
+
+
       name: data.projectName,
       description: data.description,
       keywords: Array.isArray(data.keywords)
@@ -363,9 +364,10 @@ export default function CreateProject() {
         <div
           className={`flex-1 px-4 md:px-10 py-8 mt-40 md:mt-40 lg:mt-80 z-20 ${activeIndex !== 6 ? "xl:mx-64" : ""}`}
         >
-          <Routes>         
+          <Routes>
 
             <Route path="/" element={<SetupOptions />} />
+            <Route path="/setupOptions" element={<SetupOptions />} />
             <Route path={"/basics"} element={<SelectUseCase />} />
             <Route path={"/dataSources"} element={<DataSources />} />
             <Route path={"/configuration"} element={<Configuration />} />
@@ -376,9 +378,9 @@ export default function CreateProject() {
             <Route path="/ProjectCard" element={<ProjectCard />} />
             <Route path="/editPage/:projectName" element={<EditPage />} />
 
- 
 
-            
+
+
           </Routes>
 
           {activeIndex !== 6 && activeIndex !== 1 && (

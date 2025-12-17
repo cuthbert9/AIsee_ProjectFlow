@@ -1,12 +1,16 @@
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
-export default function RegisterPage() {
-    //@ts-ignore
-    const { register, handleSubmit, formState: { errors,isSubmitting } } = useForm();
+interface RegisterPageProps {
+  onLogin: () => void;
+}
 
-     const onSubmit = async (data:any) => {
-  
+export default function RegisterPage({ onLogin }: RegisterPageProps) {
+  //@ts-ignore
+  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm();
+
+  const onSubmit = async (data: any) => {
+
     try {
       const res = await fetch("http://localhost:3000/register", {
         method: "POST",
@@ -19,16 +23,17 @@ export default function RegisterPage() {
         }),
       });
 
-      const result = await res.json(); 
+      const result = await res.json();
 
-         if(res.ok){  
-      alert("Registration successful! Please  log in.");
-      }else{
+      if (res.ok) {
+        alert("Success signing");
+        onLogin();
+      } else {
         alert(`Registration failed: ${result.error || "Unknown error"} `);
       }
-      
+
     } catch (error: any) {
-        console.error("Registration error:", error.message);
+      console.error("Registration error:", error.message);
     }
   };
 
@@ -47,19 +52,19 @@ export default function RegisterPage() {
         </div>
 
         {/* Form */}
-        <form 
-        onSubmit={handleSubmit(onSubmit)}
-         className="space-y-6">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="space-y-6">
           {/* Email */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Email
             </label>
             <input
-            {
-                ...register("email", { required: "Email is required" })
-            }
-           
+              {
+              ...register("email", { required: "Email is required" })
+              }
+
               placeholder="Enter your email"
               className="w-full px-3 py-2 border border-gray-300 rounded-md 
                          focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -72,9 +77,9 @@ export default function RegisterPage() {
               Password
             </label>
             <input
-            {
-                ...register("password", { required: "Password is required" })
-            }
+              {
+              ...register("password", { required: "Password is required" })
+              }
               type="password"
               placeholder="••••••••••••••"
               className="w-full px-3 py-2 border border-gray-300 rounded-md 
@@ -108,7 +113,8 @@ export default function RegisterPage() {
           <p className="text-center text-sm text-gray-600">
             Already have an account?{" "}
             <button
-            //   onClick={setShowRegister(false)}
+              type="button"
+              onClick={onLogin}
               className="font-medium text-blue-600 hover:text-blue-500"
             >
               Sign in

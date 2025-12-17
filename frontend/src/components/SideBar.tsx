@@ -1,12 +1,15 @@
 import { FaCog, FaRegBell } from "react-icons/fa";
 import { IoTelescopeSharp } from "react-icons/io5";
+import { RiLogoutCircleLine } from "react-icons/ri";
 import { IoSearch } from "react-icons/io5";
 import { FiHome } from "react-icons/fi";
 import { GoDotFill } from "react-icons/go";
 import { IoSettingsOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
+import {useState}from "react";
 
 export default function Sidebar() {
+  const [openAccountMenu, setOpenAccountMenu] = useState(false);
   const navigate = useNavigate();
   return (
     <aside className="hidden md:flex w-72 h-screen bg-gray-50  flex-row fixed ">
@@ -36,7 +39,26 @@ export default function Sidebar() {
           </div>
 
           <div className="w-9 h-9 bg-blue-700 text-white flex items-center justify-center rounded-full font-bold my-4  ">
-            JD
+
+            <button
+              onClick={()=>setOpenAccountMenu(!openAccountMenu)}
+            >CJ</button>
+
+            {openAccountMenu && (
+              <div className="absolute right-8 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-lg z-10">
+                <h1 className="text-sm text-black text-center mt-2 font-medium"> Cuthbert Johnson</h1>
+                <button
+                  onClick={() => {
+                    localStorage.removeItem("token");
+                    window.location.reload();
+                  }}
+                  className="block w-full flex items-center gap-2 text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" >
+                    <RiLogoutCircleLine />
+                    <h1>  Logout</h1>                
+                </button>
+              </div>
+            ) 
+            }            
           </div>
         </div>
       </div>
