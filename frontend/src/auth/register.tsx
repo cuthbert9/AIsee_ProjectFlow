@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { registerUser } from "../lib/api";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 interface RegisterPageProps {
   onLogin: () => void;
@@ -21,12 +22,12 @@ export default function RegisterPage({ onLogin }: RegisterPageProps) {
       });
 
     
-      alert("Success signing");
+      toast.success("Success signing");
       onLogin();
     
     } catch (error: any) {
       const errorMessage = error.response?.data?.error || "Unknown error";
-      alert(`Registration failed: ${errorMessage} `);
+      toast.error(`Registration failed: ${errorMessage} `);
       console.error("Registration error:", error.message);
     }
   };

@@ -4,6 +4,8 @@ import RegisterPage from "./register";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+
 
 interface LoginProps {
   onLoginSuccess: () => void;
@@ -40,7 +42,7 @@ export default function LoginPage({ onLoginSuccess }: LoginProps) {
       localStorage.setItem("token", result.token);
 
       //   if (res.ok) { // axios throws on non-2xx so if we are here it is success
-      alert("Success");
+      toast.success("Success");
       onLoginSuccess();
       navigate("/setupOptions");
 
@@ -49,7 +51,7 @@ export default function LoginPage({ onLoginSuccess }: LoginProps) {
     } catch (error: any) {
       // Axios error structure
       const errorMessage = error.response?.data?.error || "Unknown error";
-      alert(`Login failed: ${errorMessage}`);
+      toast.error(`Login failed: ${errorMessage}`);
       console.error("Login  error:", error.message);
     }
   };
