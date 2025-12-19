@@ -14,7 +14,7 @@ import { useSContextStore } from "../Context/index.ts";
 import { FormProvider, useForm } from "react-hook-form";
 import { useEffect, useRef } from "react";
 import EditPage from "./EditProject.tsx";
-import { createProject as apiCreateProject } from "../lib/api";
+import { useCreateProject } from "../hooks/useProjects";
 
 export default function CreateProject() {
   const methods = useForm({
@@ -34,7 +34,7 @@ export default function CreateProject() {
 
 
   const activeIndex = useSContextStore((state) => state.activeIndex);
-  const addProject = useSContextStore((state) => state.addProject);
+  const { mutateAsync: createProject } = useCreateProject();
   const setActiveIndex = useSContextStore((state) => state.setActiveIndex);
   const formData = useSContextStore((state) => state.formData);
   const setFormData = useSContextStore((state) => state.setFormData);
@@ -213,7 +213,7 @@ export default function CreateProject() {
 
   const handleBack = () => {
     setActiveIndex(activeIndex - 1);
-    navigator(activeIndex - 1);    
+    navigator(activeIndex - 1);
     setSubmitAttempted(false);
   };
   const values = getValues();
@@ -238,20 +238,7 @@ export default function CreateProject() {
     return "Please complete the form";
   };
 
-  const createProject = async (projectData: any) => {
-    try {
-      const data = await apiCreateProject(projectData);
-      return data;
-    } catch (error: any) {
-      if (error.response) {
-        throw new Error(error.response.data?.error || "Failed to create project");
-      } else if (error.request) {
-        throw new Error("Cannot reach server. Check your connection or backend.");
-      } else {
-        throw new Error("Something went wrong while creating the project.");
-      }
-    }
-  };
+
 
 
 
@@ -278,7 +265,7 @@ export default function CreateProject() {
 
 
 
-    addProject(projectPayload);
+    // addProject(projectPayload);
     try {
       await createProject(projectPayload);
     } catch (e) {

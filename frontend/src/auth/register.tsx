@@ -2,6 +2,9 @@ import { Link } from "react-router-dom";
 import { registerUser } from "../lib/api";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useState } from "react";
+
 
 interface RegisterPageProps {
   onLogin: () => void;
@@ -10,6 +13,7 @@ interface RegisterPageProps {
 export default function RegisterPage({ onLogin }: RegisterPageProps) {
   //@ts-ignore
   const { register, handleSubmit,watch, formState: { errors, isSubmitting } } = useForm();
+  const [showPassword, setShowPassword] = useState(false);
 
   const password=watch("password");
 
@@ -80,15 +84,23 @@ export default function RegisterPage({ onLogin }: RegisterPageProps) {
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Password
             </label>
-            <input
-              {
-              ...register("password", { required: "Password is required" })
-              }
-              type="password"
-              placeholder="•••••••"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md 
-                         focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+                        <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                {...register("password", { required: "Password is required" })}
+                placeholder="••••••••••••••"
+                className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+
+              <button
+                type="button"
+                onClick={() => setShowPassword(prev => !prev)}
+                className="absolute inset-y-0 right-0 flex items-center px-3 text-gray-500 hover:text-gray-700"
+                aria-label={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </button>
+            </div>
           </div>
 
           {/* Confirm Password */}
@@ -97,7 +109,7 @@ export default function RegisterPage({ onLogin }: RegisterPageProps) {
               Confirm Password
             </label>
             <input
-               type="password"
+               type={showPassword? "text":"password"}
               placeholder="••••••••"
               {
               ...register("confirmPassword", { required: "Please confirm your password",validate: value =>

@@ -7,26 +7,18 @@ import { GoDotFill } from "react-icons/go";
 import { IoSettingsOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import { getUser } from "../lib/api";
+import { useUser } from "../hooks/useUser.ts";
+
+
 
 export default function Sidebar() {
   const [openAccountMenu, setOpenAccountMenu] = useState(false);
-  const [user, setUser] = useState(null);
   const navigate = useNavigate();
   const accountMenuRef = useRef<HTMLDivElement | null>(null);
+  const { data } = useUser();
+  const user = data?.split("@")[0] || null;
 
-  const fetchUserData = async () => {
-    try {
-      const data = await getUser();
-      setUser(data.split("@")[0]);
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-    }
-  };
 
-  useEffect(() => {
-    fetchUserData();
-  }, []);
 
 
   useEffect(() => {

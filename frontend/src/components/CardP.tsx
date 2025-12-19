@@ -1,12 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import { useSContextStore } from "../Context";
-
 import React from "react";
-import { deleteProject as apiDeleteProject } from "../lib/api";
+import { useDeleteProject } from "../hooks/useProjects";
 
 const CardP = ({ data }: any) => {
   const navigate = useNavigate();
-  const deleteProject = useSContextStore((state) => state.deleteProject);
+  const { mutateAsync: deleteProject } = useDeleteProject();
 
   const handleDelete = async () => {
     if (!data?.id) return;
@@ -15,16 +13,11 @@ const CardP = ({ data }: any) => {
         `Are you sure you want to delete "${data?.name}"? This action cannot be undone.`,
       )
     ) {
-
       try {
-        await apiDeleteProject(data?.id);
-
-
-        deleteProject(data?.id);
+        await deleteProject(data.id);
       } catch (error) {
-
-
-        alert("Failed to delete from server, but removed locally.");
+        console.error("Failed to delete project:", error);
+        alert("Failed to delete project.");
       }
     }
   };
@@ -81,7 +74,7 @@ const CardP = ({ data }: any) => {
 
   return (
     <div className="border border-gray-200 bg-white rounded-xl shadow-md p-4 w-full hover:shadow-lg transition-shadow h-full flex flex-col">
-  
+
       <div className="flex justify-between items-start mb-3">
         <div>
           <h2 className="text-lg font-extrabold text-gray-900 leading-snug">
@@ -108,7 +101,7 @@ const CardP = ({ data }: any) => {
         <DataPoint label="Metrics" value={formattedWidgets} />
       </div>
 
-    
+
       {(formattedDataSources || formattedSocialMedia) && (
         <div className="mt-4 pt-3 border-t border-gray-100">
           <DataPoint

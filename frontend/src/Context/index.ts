@@ -1,7 +1,5 @@
 import { create } from "zustand";
-import { getProjects } from "../lib/api";
 
-// Define the Project interface based on backend response
 export interface Project {
   id: string;
   name: string;
@@ -23,35 +21,9 @@ type SContextStore = {
   submitAttempted: boolean;
   setSubmitAttempted: (attempted: boolean) => void;
   clearFormData: () => void;
-  projects: Project[];
-  addProject: (project: Project) => void;
-  updateProject: (projectId: string, updatedProject: Project) => void;
-  deleteProject: (projectId: string) => void;
 };
 
-export const fetchProjects = async () => {
- 
-  const token = localStorage.getItem("token");
-
-  if (!token) {
-    console.error("No token found. User is not logged in.");
-    return;
-  }
-
-  try {
-    const data = await getProjects();
-    useSContextStore.setState({ projects: data });
-  } catch (error: any) {
-    if (error.response?.status === 401) {
-      console.error("Unauthorized: token invalid or expired");
-   
-    } else {
-      console.error("Error fetching projects:", error);
-    }
-  }
-};
-
-export const useSContextStore = create<SContextStore>()((set, get) => ({
+export const useSContextStore = create<SContextStore>()((set) => ({
   activeIndex: 1,
   setActiveIndex: (index: number) => set({ activeIndex: index }),
 
@@ -68,29 +40,4 @@ export const useSContextStore = create<SContextStore>()((set, get) => ({
       activeIndex: 1,
       submitAttempted: false,
     }),
-
-  // Projects list
-  projects: [],
-
-  // Add a project to array
-  addProject: (project: Project) => {
-    const current = get().projects || [];
-    set({ projects: [...current, project] });
-  },
-
-  // Update an existing project by id (assuming id is the unique key now)
-  updateProject: (projectId: string, updatedProject: Project) => {
-    const current = get().projects || [];
-    const updatedProjects = current.map((p) =>
-      p.id === projectId ? updatedProject : p,
-    );
-    set({ projects: updatedProjects });
-  },
-
-  // Delete a project by id
-  deleteProject: (projectId: string) => {
-    const current = get().projects || [];
-    const filteredProjects = current.filter((p) => p.id !== projectId);
-    set({ projects: filteredProjects });
-  },
 }));

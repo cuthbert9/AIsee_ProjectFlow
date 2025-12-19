@@ -11,21 +11,17 @@ import DataSources from "./DataSources.tsx";
 import Configuration from "./Configuration.tsx";
 import { FaArrowRight } from "react-icons/fa";
 import { useParams, useNavigate } from "react-router-dom";
+import type { Project } from "../Context/index.ts";
 import { FormProvider, useForm } from "react-hook-form";
-import { updateProject as apiUpdateProject } from "../lib/api";
+import { useProjects, useUpdateProject } from "../hooks/useProjects";
 
 const EditPage = () => {
   const { projectName } = useParams();
   const navigate = useNavigate();
 
 
-
-
-
-
-
-  const projects = useSContextStore((state) => state.projects);
-  const updateProject = useSContextStore((state) => state.updateProject);
+  const { data: projects = [] } = useProjects();
+  const { mutateAsync: updateProject } = useUpdateProject();
   const setActiveIndex = useSContextStore((state) => state.setActiveIndex);
 
   const [activeTab, setActiveTab] = useState("basics");
@@ -39,26 +35,11 @@ const EditPage = () => {
   const { reset, getValues } = methods;
 
 
-  const updateProjectbyID = async (id: string, updateData: any) => {
-    try {
-      const data = await apiUpdateProject(id, updateData);
-      return data;
-    } catch (error: any) {
-      if (error.response) {
-        throw new Error(error.response.data?.error || "Failed to update project");
-      } else if (error.request) {
-        throw new Error("Cannot reach server. Check your connection.");
-      } else {
-        throw new Error("Something went wrong while updating the project.");
-      }
-    }
-  };
-
   useEffect(() => {
-    if (projectName) {
+    if (projectName && projects.length > 0) {
       const decodedName = decodeURIComponent(projectName);
 
-      const project = projects.find((p) => p.name === decodedName || p.name === projectName);
+      const project = projects.find((p: Project) => p.name === decodedName || p.name === projectName);
 
       if (project) {
         setCurrentProject(project);
@@ -66,7 +47,7 @@ const EditPage = () => {
         const formValues: any = {
           projectName: project.name,
           description: project.description,
-          keywords: project.keywords?.map(k => ({ value: k })) || [],
+          keywords: project.keywords?.map((k: string) => ({ value: k })) || [],
           priority: project.priority ? (project.priority.charAt(0).toUpperCase() + project.priority.slice(1)) : "Low",
           useCase: project.usecases || [],
           role: project.role,
@@ -87,13 +68,12 @@ const EditPage = () => {
     setActiveIndex(6);
   }, [setActiveIndex]);
 
-  const handleSave = () => {
+  const handleSave = async () => {
     const updatedData = getValues();
 
     if (currentProject) {
 
       const projectPayload: any = {
-        id: currentProject.id,
         name: updatedData.projectName,
         description: updatedData.description,
         // Handle keyword mapping
@@ -108,10 +88,13 @@ const EditPage = () => {
         dashboardMetrics: updatedData.widgets || []
       };
 
-      updateProject(currentProject.id, projectPayload);
-      updateProjectbyID(currentProject.id, projectPayload);
-
-      navigate("/ProjectCard");
+      try {
+        await updateProject({ id: currentProject.id, projectData: projectPayload });
+        navigate("/ProjectCard");
+      } catch (e) {
+        console.error("Failed to update project", e);
+        alert("Failed to update project");
+      }
     }
   };
 

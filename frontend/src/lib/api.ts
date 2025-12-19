@@ -3,12 +3,26 @@ import axios from "axios";
 const BASE_URL = "http://localhost:3000";
 
 const api = axios.create({
-  baseURL: BASE_URL,
-  headers: {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
-  },
+    baseURL: BASE_URL,
+    headers: {
+        "Content-Type": "application/json",
+        
+    },
 });
+
+// Add a request interceptor to inject the token dynamically
+api.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem("token");
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
+    }
+);
 
 
 export const loginUser = async (data: any) => {

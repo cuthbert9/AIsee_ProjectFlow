@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 
 interface LoginProps {
@@ -14,6 +15,7 @@ interface LoginProps {
 export default function LoginPage({ onLoginSuccess }: LoginProps) {
 
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
 
   const [showRegister, setShowRegister] = useState(false);
 
@@ -35,13 +37,9 @@ export default function LoginPage({ onLoginSuccess }: LoginProps) {
         password: data.password,
       });
 
-      // The api function returns response.data directly.
-      // But wait check my api.ts implementation: `return response.data`.
-      // The original code expected `token` in `result`.
-
+ 
       localStorage.setItem("token", result.token);
 
-      //   if (res.ok) { // axios throws on non-2xx so if we are here it is success
       toast.success("Success");
       onLoginSuccess();
       navigate("/setupOptions");
@@ -115,12 +113,24 @@ export default function LoginPage({ onLoginSuccess }: LoginProps) {
               </Link>
             </div>
 
-            <input
-              type="password"
-              {...register("password", { required: "Password is required " })}
-              placeholder="••••••••••••••"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+            <div className="relative">
+  <input
+    type={showPassword ? "text" : "password"}
+    {...register("password", { required: "Password is required" })}
+    placeholder="••••••••••••••"
+    className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+  />
+
+  <button
+    type="button"
+    onClick={() => setShowPassword(prev => !prev)}
+    className="absolute inset-y-0 right-0 flex items-center px-3 text-gray-500 hover:text-gray-700"
+    aria-label={showPassword ? "Hide password" : "Show password"}
+  >
+    {showPassword ? <FaEyeSlash /> : <FaEye />}
+  </button>
+</div>
+            
           </div>
 
           {/* Remember me */}
