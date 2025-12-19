@@ -12,7 +12,11 @@ AIsee_ProjectFlow is a full-stack web application designed to manage projects, l
 - **State Management:** Zustand
 - **Routing:** React Router DOM
 - **HTTP Client:** Axios
-- **UI Components:**  Lucide React icons, React Icons
+- **Data Fetching:** TanStack Query (React Query)
+- **Forms:** React Hook Form
+- **UI Components:** Lucide React icons, React Icons, Radix UI (Tabs), React Modal
+- **UI Utilities:** React Hot Toast (Notifications)
+- **Styling Utils:** CLSX, Tailwind Merge, CVA
 
 ### Backend
 - **Runtime:** Node.js
@@ -20,6 +24,7 @@ AIsee_ProjectFlow is a full-stack web application designed to manage projects, l
 - **Language:** TypeScript
 - **Database ORM:** Drizzle ORM
 - **Database:** PostgreSQL (`pg` driver)
+- **Authentication:** BCryptJS, JSONWebToken
 - **Utilities:** Cors, Dotenv
 
 ### DevOps
@@ -94,10 +99,19 @@ Base URL: `http://localhost:3000`
 ### Database Schema
 The database uses **PostgreSQL** managed by **Drizzle ORM**.
 
+#### Table: `users`
+| Column | Type | Constraints | Description |
+| :--- | :--- | :--- | :--- |
+| `id` | UUID | PK, unique | Auto-generated UUID |
+| `email` | Text | Not Null, Unique | User email address |
+| `passwordHash` | Text | Not Null | Hashed password |
+| `createdAt` | Timestamp | Default Now | Account creation timestamp |
+
 #### Table: `projects`
 | Column | Type | Constraints | Description |
 | :--- | :--- | :--- | :--- |
 | `id` | UUID | PK, unique | Auto-generated UUID |
+| `userId` | UUID | FK | Reference to `users.id` |
 | `name` | Text | Not Null | Project name |
 | `description` | Text | Not Null | Project description |
 | `keywords` | Text[] | Not Null | Array of keywords |

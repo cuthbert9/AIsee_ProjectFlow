@@ -84,7 +84,7 @@ export default function RegisterPage({ onLogin }: RegisterPageProps) {
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Password
             </label>
-                        <div className="relative">
+                  <div className="relative">
               <input
                 type={showPassword ? "text" : "password"}
                 {...register("password", { required: "Password is required" })}
@@ -108,7 +108,9 @@ export default function RegisterPage({ onLogin }: RegisterPageProps) {
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Confirm Password
             </label>
-            <input
+            <div className="relative">
+
+                  <input
                type={showPassword? "text":"password"}
               placeholder="••••••••"
               {
@@ -120,6 +122,17 @@ export default function RegisterPage({ onLogin }: RegisterPageProps) {
               className="w-full px-3 py-2 border border-gray-300 rounded-md 
                          focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
+
+            <button
+                type="button"
+                onClick={() => setShowPassword(prev => !prev)}
+                className="absolute inset-y-0 right-0 flex items-center px-3 text-gray-500 hover:text-gray-700"
+                aria-label={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </button>
+
+            </div>          
                             {errors.confirmPassword && (
                 <p className="text-sm text-red-600 mt-1">    
                     Passwords doesn't match
