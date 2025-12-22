@@ -143,10 +143,14 @@ export default function RegisterPage({ onLogin }: RegisterPageProps) {
           {/* Submit */}
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded-md 
-                       font-semibold hover:bg-blue-700 transition"
+            disabled={isSubmitting}
+           className={`w-full py-2 rounded-md font-semibold transition
+            ${isSubmitting
+              ? "bg-blue-400 cursor-not-allowed"
+              : "bg-blue-600 hover:bg-blue-700 text-white"
+            }`}
           >
-            Sign up
+             {isSubmitting ? "Signing Up..." : "Sign Up"}
           </button>
 
           {/* Login */}

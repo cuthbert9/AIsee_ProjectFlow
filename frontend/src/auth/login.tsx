@@ -20,7 +20,7 @@ export default function LoginPage({ onLoginSuccess }: LoginProps) {
   const [showRegister, setShowRegister] = useState(false);
 
 
-  const { register, handleSubmit ,formState:{errors} } = useForm();
+  const { register, handleSubmit ,formState:{errors,isSubmitting} } = useForm();
 
 
   if (showRegister) {
@@ -151,9 +151,14 @@ export default function LoginPage({ onLoginSuccess }: LoginProps) {
           {/* Submit */}
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded-md font-semibold hover:bg-blue-700 transition"
+            disabled={isSubmitting}
+            className={`w-full py-2 rounded-md font-semibold transition
+            ${isSubmitting
+              ? "bg-blue-400 cursor-not-allowed"
+              : "bg-blue-600 hover:bg-blue-700 text-white"
+            }`}
           >
-            Sign in
+             {isSubmitting ? "Signing in..." : "Sign in"}
           </button>
 
           {/* Signup */}
