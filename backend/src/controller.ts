@@ -105,10 +105,18 @@ export const registerUser= async (req: Request, res: Response) => {
     });
     
     res.status(201).json({ message: "User registered successfully" });
-  } catch (error) {
-    console.error(error);
-    //@ts-ignore
-    res.status(500).json({ error: "Failed to Register New User " });
+  } catch (error:any) {
+    console.error("Register Error:",error); 
+
+    if (error?.cause?.code === "23505") {
+      return res.status(409).json({
+        error: "Email already exists Choose a different email",
+      });
+    }
+   
+    return res.status(500).json({
+      error: "Failed to register user",
+    });
   }
 }
 
