@@ -80,7 +80,7 @@ export default function CreateProject() {
       "/ProjectCard": 6,
     };
 
-    const currentIndex = pathToIndex[location.pathname] || 1;
+    const currentIndex = pathToIndex[location.pathname] || (location.pathname.startsWith("/editPage/") ? 6 : 1);
     if (currentIndex !== activeIndex) {
       setActiveIndex(currentIndex);
     }
