@@ -17,6 +17,7 @@ export default function Sidebar() {
   const accountMenuRef = useRef<HTMLDivElement | null>(null);
   const { data } = useUser();
   const user = data?.split("@")[0] || null;
+  const initials = user ? user[0].toUpperCase() : "";
 
 
 
@@ -72,7 +73,7 @@ export default function Sidebar() {
 
             <button
               onClick={() => setOpenAccountMenu(!openAccountMenu)}
-            >CJ</button>
+            >{initials}</button>
 
             {openAccountMenu && (
               <div className="absolute right-8 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-lg z-10">
